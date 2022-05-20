@@ -1,19 +1,25 @@
 package com.capstone.newsletterapi.service;
 
+import com.capstone.newsletterapi.dto.MailingListDto;
 import com.capstone.newsletterapi.dto.SubscribeRequestDto;
 import com.capstone.newsletterapi.dto.SubscribeResponseDto;
 import com.capstone.newsletterapi.model.User;
 import com.capstone.newsletterapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class SubscribeService {
+    @Value("${subscribe.token}")
+    private String subscribeToken;
     private final UserRepository userRepository;
 
     @Transactional
@@ -47,5 +53,20 @@ public class SubscribeService {
             return new SubscribeResponseDto(uuid, false);
         }
         return new SubscribeResponseDto(null, false);
+    }
+
+    @Transactional(readOnly = true)
+    public MailingListDto getMailingListUser(String token) {
+        if (this.subscribeToken.equals(token)) {
+            List<User> subscribeUsers = userRepository.findByIsAuthenticatedTrue();
+
+            List<String> emailList = subscribeUsers.stream()
+                    .map(User::getEmail)
+                    .collect(Collectors.toList());
+
+            return new MailingListDto(emailList, true);
+        }
+
+        return new MailingListDto(null, false);
     }
 }
