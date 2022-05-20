@@ -1,7 +1,9 @@
 package com.capstone.newsletterapi.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -21,9 +23,11 @@ public class User {
     private UUID userId;
 
     @Email
+    @Setter
     @Column(name = "email")
     private String email;
 
+    @Setter
     @Column(name = "is_authenticated", columnDefinition = "boolean default false")
     private Boolean isAuthenticated;
 

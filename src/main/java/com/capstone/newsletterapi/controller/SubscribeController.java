@@ -1,19 +1,26 @@
 package com.capstone.newsletterapi.controller;
 
 import com.capstone.newsletterapi.dto.SubscribeRequestDto;
+import com.capstone.newsletterapi.dto.SubscribeResponseDto;
+import com.capstone.newsletterapi.service.SubscribeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/subscribe")
 public class SubscribeController {
+    private final SubscribeService subscribeService;
 
     @PostMapping
-    public String subscribeNewsLetter(@RequestBody SubscribeRequestDto requestDto){
-        return "hello";
+    public SubscribeResponseDto subscribeNewsLetter(@RequestBody SubscribeRequestDto requestDto){
+        return subscribeService.subscribe(requestDto);
+    }
+
+    @GetMapping("/cancel/{uuid}")
+    public SubscribeResponseDto cancelNewsLetter(@PathVariable UUID uuid){
+        return subscribeService.cancel(uuid);
     }
 }
