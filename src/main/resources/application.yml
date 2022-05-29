@@ -1,0 +1,11 @@
+subscribe:
+    token: test
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        url: jdbc:mysql://localhost:3306/newsletter
+    jpa:
+        hibernate:
+            ddl-auto: create
+        database-platform: org.hibernate.dialect.MySQL8Dialect

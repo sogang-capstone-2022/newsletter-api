@@ -19,7 +19,7 @@ public class User {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "user_id", columnDefinition = "VARCHAR(255)")
+    @Column(columnDefinition = "BINARY(16)")
     private UUID userId;
 
     @Email
@@ -30,13 +30,5 @@ public class User {
     @Setter
     @Column(name = "is_authenticated", columnDefinition = "boolean default false")
     private Boolean isAuthenticated;
-
-    @OneToMany(mappedBy = "user")
-    private List<Category> categories = new ArrayList<>();
-
-    public void addCategory(Category category){
-        this.categories.add(category);
-        category.setUser(this);
-    }
 }
 

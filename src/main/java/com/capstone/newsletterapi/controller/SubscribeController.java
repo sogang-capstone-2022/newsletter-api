@@ -14,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/subscribe")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SubscribeController {
     private final SubscribeService subscribeService;
 
